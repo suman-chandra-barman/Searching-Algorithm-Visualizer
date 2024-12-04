@@ -11,7 +11,7 @@ const LinearSearch = () => {
         for (let i = 0; i < arr.length; i++) {
             newAnimation.push({index: i, value: arr[i]});
             if (arr[i] === key) {
-              break;
+                break;
             }
         }
         setAnimation(newAnimation);
@@ -23,9 +23,9 @@ const LinearSearch = () => {
 
     useEffect(() => {
         if(animation.length > 0){
-           const interval =  setInterval(() => {
-               setCounter(prev => prev + 1);
-           },1000);
+            const interval =  setInterval(() => {
+                setCounter(prev => prev + 1);
+            },1000);
             if (counter >= animation.length) {
                 clearInterval(interval);
             }
@@ -37,31 +37,30 @@ const LinearSearch = () => {
 
     return (
         <div className="mt-4">
-            <h2>Linear Search</h2>
-            <div className="mt-4 flex gap-2">
+            <h2 className="text-xl">Linear Search</h2>
+            <div className="mt-4 flex items-start gap-2">
                 {elements.map((item, i) => (
-                    <div key={i} >
-                        {counter === i + 1 ?
-                            <div className="text-center">
-                                {30}
-                            </div>
-                            : <div></div>
-                        }
+                    <div key={i} className="w-[100px]">
                         <div className="flex justify-center w-full">
                             {i}
                         </div>
                         <div
-                            className={`py-4 px-8 rounded ${counter === i + 1 ? 'bg-blue-200' : 'bg-gray-200'}`}>
+                            className={`py-4 px-8 rounded text-center transition-all duration-500 ease-in-out ${counter === i + 1 ? 'bg-blue-200' : 'bg-gray-200'}`}>
                             {item}
                         </div>
                         {counter === i + 1 && (
-                            <div className="flex flex-col items-center mt-2 w-full">
-                                <FaLongArrowAltUp/>
-                                i = {i}
+                            <div className="transition-all duration-500 ease-in-out">
+                                <div className="flex flex-col items-center mt-2 w-full">
+                                    <FaLongArrowAltUp />
+                                    <span>i = {i}</span>
+                                </div>
+                                <div className="py-4 px-8 text-center rounded bg-blue-200 transition-all duration-500 ease-in-out">
+                                    {30}
+                                </div>
                             </div>
                         )}
-                    </div>
 
+                    </div>
                 ))}
             </div>
         </div>
