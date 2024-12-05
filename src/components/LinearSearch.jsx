@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
 import { FaLongArrowAltUp} from "react-icons/fa";
 
-const LinearSearch = () => {
-    const [elements, setElements] = useState([5, 8, 2, 10, 3, 11, 17, 15, 9, 6]);
+const LinearSearch = ({customInputs}) => {
     const [animation, setAnimation] = useState([]);
     const [counter, setCounter] = useState(0)
 
@@ -18,8 +17,8 @@ const LinearSearch = () => {
     }
 
     useEffect(() => {
-        linearSearch(elements, 6);
-    },[elements]);
+        linearSearch(customInputs, 6);
+    },[customInputs]);
 
     useEffect(() => {
         if(animation.length > 0){
@@ -33,13 +32,11 @@ const LinearSearch = () => {
         }
     },[animation, counter]);
 
-    console.log(counter);
-
     return (
         <div className="mt-4">
             <h2 className="text-xl">Linear Search</h2>
             <div className="mt-4 flex items-start gap-2">
-                {elements.map((item, i) => (
+                {customInputs.map((item, i) => (
                     <div key={i} className="w-[100px]">
                         <div className="flex justify-center w-full">
                             {i}
