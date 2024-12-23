@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaLongArrowAltUp } from "react-icons/fa";
 
-const LinearSearch = ({ customInputs, searchKey, searching }) => {
-    const [animation, setAnimation] = useState([]);
-    const [counter, setCounter] = useState(0);
+const LinearSearch = ({ customInputs, searchKey, searching, animationData, setAnimationData }) => {
+    const [animation, setAnimation] = useState(0);
 
     const linearSearch = (arr, key) => {
         let newAnimation = [];
@@ -13,41 +12,51 @@ const LinearSearch = ({ customInputs, searchKey, searching }) => {
                 break;
             }
         }
-        setAnimation(newAnimation);
+        setAnimationData(newAnimation);
     };
 
     useEffect(() => {
-        linearSearch(customInputs, searchKey);
-    }, [customInputs]);
+        if(searching) {
+            linearSearch(customInputs, searchKey);
+        }
+
+    }, [customInputs, searching]);
 
     useEffect(() => {
-        if (animation.length > 0 && searching) {
+        if(!animationData.length) {
+            setAnimation(0)
+        }
+    },[animationData])
+
+    useEffect(() => {
+        if (animationData.length > 0 && searching) {
             const interval = setInterval(() => {
-                setCounter((prev) => prev + 1);
+                setAnimation((prev) => prev + 1);
             }, 1000);
-            if (Math.floor(counter / 2) >= animation.length) {
+            if (Math.floor(animation / 2) >= animationData.length) {
                 clearInterval(interval);
             }
             return () => clearInterval(interval);
         }
-    }, [animation, counter, searching]);
+    }, [animationData, animation, searching]);
 
     return (
         <div className="mt-4">
             <h2 className="text-xl">Linear Search</h2>
-            <div className="mt-4 flex items-start gap-1">
+            <div className="relative mt-4 flex items-start gap-1">
                 {customInputs.map((item, i) => (
                     <div key={i} className="w-[90px]">
-                        {Math.floor(counter / 2) === i + 1 ? (
+                        {Math.floor(animation / 2) === i + 1 && animationData.length ? (
                             <div
                                 className={`transition-all duration-500 ease-in-out ${
-                                    counter % 2 ? "translate-x-[94px]" : ""
+                                    animation % 2 ? "translate-x-[94px]" : ""
                                 }`}
                             >
-                                <div className="h-[70px] flex justify-center items-center text-center rounded border-2">
+                                <div className="h-[70px] flex justify-center items-center text-center rounded border-2 border-blue-200">
                                     {item !== searchKey
                                         ? `${item} != ${searchKey}`
-                                        : `${item} == ${searchKey}`}
+                                        : <span>${item} == ${searchKey}</span>
+                                    }
                                 </div>
                             </div>
                         ) : (
@@ -56,27 +65,35 @@ const LinearSearch = ({ customInputs, searchKey, searching }) => {
                         <div className="flex justify-center w-full mt-2">{i}</div>
                         <div
                             className={`h-[70px] flex items-center justify-center rounded text-center transition-all duration-500 ease-in-out ${
-                                Math.round(counter / 2) === i + 1
+                                Math.round(animation / 2) === i + 1 && animationData.length
                                     ? "bg-blue-200"
                                     : "bg-gray-200"
                             }`}
                         >
                             {item}
                         </div>
-                        {Math.floor(counter / 2) === i + 1 ? (
+                        {Math.floor(animation / 2) === i + 1 && animationData.length? (
                             <div
                                 className={`transition-all duration-500 ease-in-out ${
-                                    counter % 2 ? "translate-x-[94px]" : ""
+                                    animation % 2 ? "translate-x-[94px]" : ""
                                 }`}
                             >
                                 <div className="w-full h-[40px] flex flex-col items-center mt-2">
                                     <FaLongArrowAltUp />
-                                    <span>i = {i + counter % 2}</span>
+                                    <span>i = {i + animation % 2}</span>
                                 </div>
                             </div>
                         ) : (
                             <div className="w-full h-[48px]"></div>
                         )}
+                        {item !== searchKey
+                            ? <div className="absolute left-0 right-0">
+                              Not  Matching
+                            </div>
+                            : <div className="absolute left-0 right-0">
+                                Matching
+                            </div>
+                        }
                     </div>
                 ))}
             </div>

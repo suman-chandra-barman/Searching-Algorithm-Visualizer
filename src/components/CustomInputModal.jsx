@@ -27,19 +27,16 @@ const CustomInputModal = ({setCustomInputs, setOpenCustomInputModal}) => {
                 </div>
             </div>
             <div className="p-4">
-                <div>
-                    <label htmlFor="custom-input">Inputs</label>
-                    <textarea
-                        onChange={(e) => {
-                            setOnChangeCustomInput(e.target.value)
-                        }}
-                        id="custom-input"
-                        rows={6}
-                        placeholder="5, 8, 3, 2"
-                        className="p-2 w-full mt-2 border rounded bg-gray-200"
-                        required={true}
-                    />
-                </div>
+                <textarea
+                    onChange={(e) => {
+                        setOnChangeCustomInput(e.target.value)
+                    }}
+                    id="custom-input"
+                    rows={6}
+                    placeholder="5, 8, 3, 2"
+                    className="p-2 w-full mt-2 border rounded text-black bg-gray-200"
+                    required={true}
+                />
                 <div>
                     <button onClick={handleSubmitCustomInput}
                             className="p-3 text-white rounded bg-blue-600 font-bold hover:bg-blue-700">Submit

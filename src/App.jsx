@@ -5,13 +5,13 @@ import {useEffect, useState} from "react";
 import BinarySearch from "./components/BinarySearch.jsx";
 import CustomInputModal from "./components/CustomInputModal.jsx";
 
-
 function App() {
     const [openCustomInputModal, setOpenCustomInputModal] = useState(false);
     const [displayAlgorithm, setDisplayAlgorithm] = useState("Linear Search");
     const [customInputs, setCustomInputs] = useState([]);
-    const [searchKey, setSearchKey] = useState(9);
+    const [searchKey, setSearchKey] = useState(null);
     const [searching, setSearching] = useState(false);
+    const [animationData, setAnimationData] = useState([]);
 
     const defaultInputs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -19,6 +19,23 @@ function App() {
         setCustomInputs(defaultInputs);
     },[])
 
+    const handleStart = () => {
+        if(searchKey === null) {
+            alert("Please provide search value");
+        } else {
+            setSearching(false);
+            setSearching(true);
+        }
+    }
+    const handleStop = () => {
+        setSearching(false);
+    }
+    const handleReset = () => {
+        setSearching(false);
+        setCustomInputs(defaultInputs);
+        setAnimationData([]);
+        setSearchKey(null);
+    }
     return (
         <div>
             <nav className="bg-gray-800">
@@ -37,17 +54,26 @@ function App() {
                             <IoMdArrowDropdown/>
                         </div>
                     </div>
-                    <input placeholder="Search here" className="p-2 rounded text-black"/>
-                    <button onClick={() => setSearching(true)} className="p-2 rounded bg-blue-600 font-bold hover:bg-blue-700">Start</button>
-                    <button onClick={() => setCustomInputs(defaultInputs)}
-                            className="p-2 rounded bg-red-600 font-bold hover:bg-red-700">Stop
-                    </button>
-                    <button onClick={() => setCustomInputs(defaultInputs)}
-                            className="p-2 rounded bg-red-600 font-bold hover:bg-red-700">Reset
-                    </button>
+                    <div className="flex">
+                        <input
+                            onChange={(e) => setSearchKey(Number(e.target.value))}
+                            type="number"
+                            placeholder="Search here"
+                            className="w-[150px] p-2 rounded-l text-black"
+                        />
+                        <button onClick={handleStart}
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold p-2">Start
+                        </button>
+                        <button onClick={handleStop}
+                                className="bg-red-500 hover:bg-red-600 text-white font-bold p-2">Stop
+                        </button>
+                        <button onClick={handleReset}
+                                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold p-2">Reset
+                        </button>
+                    </div>
                     <div className="flex flex-col">
-                        <label htmlFor="speed">Speed in ms</label>
-                        <input id="speed" type="range"/>
+                    <label htmlFor="speed">Speed in ms</label>
+                        <input id="speed" type="range" className="width-[150px]"/>
                     </div>
 
                     {openCustomInputModal && (
@@ -62,16 +88,18 @@ function App() {
                 </div>
             </nav>
             <div className="container mx-auto">
-                {displayAlgorithm === "Binary Search" ? (
-                        <BinarySearch
-                            customInputs={customInputs}
-                            searchKey={searchKey}
-                        />
-                    )
-                    : <LinearSearch
+                {displayAlgorithm === "Binary Search" ?
+                    <BinarySearch
+                        customInputs={customInputs}
+                        searchKey={searchKey}
+                    />
+                    :
+                    <LinearSearch
                         customInputs={customInputs}
                         searchKey={searchKey}
                         searching={searching}
+                        animationData={animationData}
+                        setAnimationData={setAnimationData}
                     />
                 }
 
