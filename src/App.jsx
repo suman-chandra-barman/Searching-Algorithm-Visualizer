@@ -9,7 +9,7 @@ function App() {
     const [openCustomInputModal, setOpenCustomInputModal] = useState(false);
     const [displayAlgorithm, setDisplayAlgorithm] = useState("Linear Search");
     const [customInputs, setCustomInputs] = useState([]);
-    const [searchKey, setSearchKey] = useState(null);
+    const [searchKey, setSearchKey] = useState("");
     const [searching, setSearching] = useState(false);
     const [animationData, setAnimationData] = useState([]);
 
@@ -20,9 +20,14 @@ function App() {
     },[])
 
     const handleStart = () => {
-        if(searchKey === null) {
+        if(!searchKey) {
             alert("Please provide search value");
-        } else {
+        }
+
+         if(isNaN(searchKey)){
+            alert("Please enter numeric value");
+        }
+        else {
             setSearching(false);
             setSearching(true);
         }
@@ -34,8 +39,9 @@ function App() {
         setSearching(false);
         setCustomInputs(defaultInputs);
         setAnimationData([]);
-        setSearchKey(null);
+        setSearchKey("");
     }
+
     return (
         <div>
             <nav className="bg-gray-800">
@@ -56,8 +62,9 @@ function App() {
                     </div>
                     <div className="flex">
                         <input
-                            onChange={(e) => setSearchKey(Number(e.target.value))}
-                            type="number"
+                            value={searchKey}
+                            type="text"
+                            onChange={(e) => setSearchKey(e.target.value)}
                             placeholder="Search here"
                             className="w-[150px] p-2 rounded-l text-black"
                         />

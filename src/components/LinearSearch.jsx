@@ -3,6 +3,7 @@ import { FaLongArrowAltUp } from "react-icons/fa";
 
 const LinearSearch = ({ customInputs, searchKey, searching, animationData, setAnimationData }) => {
     const [animation, setAnimation] = useState(0);
+    const [matchFound, setMatchFound] = useState(false);
 
     const linearSearch = (arr, key) => {
         let newAnimation = [];
@@ -19,7 +20,6 @@ const LinearSearch = ({ customInputs, searchKey, searching, animationData, setAn
         if(searching) {
             linearSearch(customInputs, searchKey);
         }
-
     }, [customInputs, searching]);
 
     useEffect(() => {
@@ -35,6 +35,8 @@ const LinearSearch = ({ customInputs, searchKey, searching, animationData, setAn
             }, 1000);
             if (Math.floor(animation / 2) >= animationData.length) {
                 clearInterval(interval);
+                const found = animationData.some((data) => data.value === Number(searchKey));
+                setMatchFound(found);
             }
             return () => clearInterval(interval);
         }
@@ -44,58 +46,60 @@ const LinearSearch = ({ customInputs, searchKey, searching, animationData, setAn
         <div className="mt-4">
             <h2 className="text-xl">Linear Search</h2>
             <div className="relative mt-4 flex items-start gap-1">
-                {customInputs.map((item, i) => (
-                    <div key={i} className="w-[90px]">
-                        {Math.floor(animation / 2) === i + 1 && animationData.length ? (
+                {customInputs.map((item, i) => {
+                    
+                    return (
+                        <div key={i} className="w-[90px]">
+                            {Math.floor(animation / 2) === i + 1 && animationData.length ? (
+                                <div className={`transition-all duration-500 ease-in-out ${
+                                        animation % 2 ? "translate-x-[94px]" : ""
+                                    }`}
+                                >
+                                    <div className="h-[70px] flex justify-center items-center text-center rounded border-2 border-blue-200 text-sm">
+                                        {item !== searchKey
+                                            ? `${item} Not equal ${searchKey}`
+                                            : `${item} Equal ${searchKey}`
+                                        }
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="w-full h-[70px]"></div>
+                            )}
+                            <div className="flex justify-center w-full mt-2">{i}</div>
                             <div
-                                className={`transition-all duration-500 ease-in-out ${
-                                    animation % 2 ? "translate-x-[94px]" : ""
+                                className={`h-[70px] flex items-center justify-center rounded text-center transition-all duration-500 ease-in-out ${
+                                    Math.round(animation / 2) === i + 1 && animationData.length
+                                        ? "bg-blue-200"
+                                        : "bg-gray-200"
                                 }`}
                             >
-                                <div className="h-[70px] flex justify-center items-center text-center rounded border-2 border-blue-200">
-                                    {item !== searchKey
-                                        ? `${item} != ${searchKey}`
-                                        : <span>${item} == ${searchKey}</span>
-                                    }
-                                </div>
+                                {item}
                             </div>
-                        ) : (
-                            <div className="w-full h-[70px]"></div>
-                        )}
-                        <div className="flex justify-center w-full mt-2">{i}</div>
-                        <div
-                            className={`h-[70px] flex items-center justify-center rounded text-center transition-all duration-500 ease-in-out ${
-                                Math.round(animation / 2) === i + 1 && animationData.length
-                                    ? "bg-blue-200"
-                                    : "bg-gray-200"
-                            }`}
-                        >
-                            {item}
+                            {Math.floor(animation / 2) === i + 1 && animationData.length ? (
+                                <div
+                                    className={`transition-all duration-500 ease-in-out ${
+                                        animation % 2 ? "translate-x-[94px]" : ""
+                                    }`}
+                                >
+                                    <div className="w-full h-[40px] flex flex-col items-center mt-2">
+                                        <FaLongArrowAltUp/>
+                                        <span>i = {i + animation % 2}</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="w-full h-[48px]"></div>
+                            )}
+                            {matchFound
+                                ? <div className="absolute left-0 right-0">
+                                    Not Matching
+                                </div>
+                                : <div className="absolute left-0 right-0">
+                                    Matching
+                                </div>
+                            }
                         </div>
-                        {Math.floor(animation / 2) === i + 1 && animationData.length? (
-                            <div
-                                className={`transition-all duration-500 ease-in-out ${
-                                    animation % 2 ? "translate-x-[94px]" : ""
-                                }`}
-                            >
-                                <div className="w-full h-[40px] flex flex-col items-center mt-2">
-                                    <FaLongArrowAltUp />
-                                    <span>i = {i + animation % 2}</span>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="w-full h-[48px]"></div>
-                        )}
-                        {item !== searchKey
-                            ? <div className="absolute left-0 right-0">
-                              Not  Matching
-                            </div>
-                            : <div className="absolute left-0 right-0">
-                                Matching
-                            </div>
-                        }
-                    </div>
-                ))}
+                    )
+                })}
             </div>
         </div>
     );
