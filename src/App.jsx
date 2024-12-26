@@ -22,12 +22,9 @@ function App() {
     const handleStart = () => {
         if(!searchKey) {
             alert("Please provide search value");
-        }
-
-         if(isNaN(searchKey)){
-            alert("Please enter numeric value");
-        }
-        else {
+        } else if (isNaN(searchKey)){
+            alert("Please enter valid value");
+        } else {
             setSearching(false);
             setSearching(true);
         }

@@ -91,10 +91,10 @@ const LinearSearch = ({ customInputs, searchKey, searching, animationData, setAn
                             )}
                             {matchFound
                                 ? <div className="absolute left-0 right-0">
-                                    Not Matching
+                                   Matching...
                                 </div>
                                 : <div className="absolute left-0 right-0">
-                                    Matching
+                                   Not Matching
                                 </div>
                             }
                         </div>

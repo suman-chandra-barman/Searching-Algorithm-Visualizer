@@ -19,7 +19,7 @@ const CustomInputModal = ({setCustomInputs, setOpenCustomInputModal}) => {
         }
     }
     return (
-        <div className={`bg-gray-800 rounded absolute w-[400px] top-[100px] left-1/2 transform -translate-x-1/2 shadow-lg`}>
+        <div className={`bg-gray-800 rounded absolute w-[400px] top-[100px] left-1/2 transform -translate-x-1/2 shadow-lg z-10`}>
             <div className="p-4 border-b flex items-center justify-between gcursor-pointer">
                 <h3>Custom Input</h3>
                 <div onClick={() => setOpenCustomInputModal(false)} className="cursor-pointer hover:text-gray-200">
